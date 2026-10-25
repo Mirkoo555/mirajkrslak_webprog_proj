@@ -1,0 +1,34 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Local configuration files
+backend/config/*.local.php
+backend/config/*secret*
+backend/config/*credentials*
+
+# Application logs
+backend/logs/*
+!backend/logs/.gitkeep
+*.log
+
+# Dependencies
+vendor/
+node_modules/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# IDE settings
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Build output
+dist/
+build/
