@@ -1,13 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello World</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CarHub | Find Your Next Car</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/script.js" defer></script>
 </head>
+
 <body>
-  <h1>Hello, everyone!</h1>
-  <p>Welcome to Web Programming!</p>
+
+    <!-- HEADER -->
+    <header>
+        <nav class="navbar">
+
+            <a href="#home" class="logo" data-page="home">
+                Car<span>Hub</span>
+            </a>
+
+            <ul class="nav-links">
+                <li>
+                    <a href="#home" data-page="home">Home</a>
+                </li>
+                <li>
+                    <a href="#cars" data-page="cars">Explore Cars</a>
+                </li>
+                <li>
+                    <a href="#events" data-page="events">Events</a>
+                </li>
+                <li>
+                    <a href="#about" data-page="about">About</a>
+                </li>
+            </ul>
+
+            <div class="nav-buttons">
+                <a href="#login" class="login-button" data-page="login">
+                    Login
+                </a>
+
+                <a href="#register" class="register-button" data-page="register">
+                    Register
+                </a>
+            </div>
+
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div id="app-content">
+
+            <!-- HERO SECTION -->
+            <section class="hero" id="home">
+                <div class="hero-content">
+
+                    <p class="eyebrow">YOUR AUTOMOTIVE COMMUNITY</p>
+
+                    <h1>
+                        Find the Car<br>
+                        That Moves You.
+                    </h1>
+
+                    <p class="hero-description">
+                        Explore cars, discover automotive events, and connect
+                        with people who share your passion for cars.
+                    </p>
+
+                    <a href="#cars" class="primary-button" data-page="cars">
+                        Explore Cars
+                    </a>
+
+                </div>
+            </section>
+
+            <!-- EVENTS SECTION -->
+            <section id="events" class="community-section">
+
+                <p class="eyebrow">MORE THAN JUST CARS</p>
+
+                <h2>Driven by Passion.</h2>
+
+                <p>
+                    Discover automotive events and connect with a community
+                    that shares your love for the road.
+                </p>
+
+                <a href="#events" class="primary-button" data-page="events">
+                    Explore Events
+                </a>
+
+            </section>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="about">
+
+        <a href="#home" class="logo" data-page="home">
+            Car<span>Hub</span>
+        </a>
+
+        <p>Built for people who love cars.</p>
+
+        <p class="copyright">
+            © 2026 CarHub. All rights reserved.
+        </p>
+
+    </footer>
+
 </body>
 </html>
-
