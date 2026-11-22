@@ -715,3 +715,105 @@ footer p {
         align-items: flex-start;
     }
 }
+/* ===== VEHICLE MODEL FINDER ===== */
+
+.vehicle-finder {
+    margin: 0 0 40px;
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+}
+
+.vehicle-finder h3 {
+    margin-bottom: 10px;
+    font-size: 22px;
+}
+
+.vehicle-finder > p {
+    margin-bottom: 20px;
+    color: #b8b8c0;
+}
+
+#vehicle-search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+#vehicle-make-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 13px 15px;
+    color: #fff;
+    background: #18181b;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 15px;
+}
+
+#vehicle-make-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+#vehicle-search-button {
+    padding: 13px 22px;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#vehicle-search-button:hover {
+    background: var(--accent-hover);
+}
+
+#vehicle-search-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+#vehicle-model-results {
+    margin-top: 22px;
+}
+
+#vehicle-model-results h4 {
+    margin-bottom: 14px;
+    font-size: 17px;
+}
+
+#vehicle-model-results ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 0;
+    list-style: none;
+}
+
+#vehicle-model-results li {
+    padding: 10px 12px;
+    background: #18181b;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: #e4e4e7;
+}
+
+@media (max-width: 600px) {
+    .vehicle-finder {
+        padding: 20px;
+    }
+
+    #vehicle-search-form {
+        flex-direction: column;
+    }
+
+    #vehicle-search-button {
+        width: 100%;
+    }
+}

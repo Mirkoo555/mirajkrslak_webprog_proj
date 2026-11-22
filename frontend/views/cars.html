@@ -9,6 +9,26 @@
         </div>
     </div>
 
+    <div class="vehicle-finder">
+        <h3>Vehicle Model Finder</h3>
+        <p>Enter a vehicle make to explore available models.</p>
+
+        <form id="vehicle-search-form">
+            <input
+                type="text"
+                id="vehicle-make-input"
+                placeholder="e.g. BMW, Audi, Toyota"
+                aria-label="Vehicle make"
+                required
+            >
+            <button type="submit" id="vehicle-search-button">
+                Search Models
+            </button>
+        </form>
+
+        <div id="vehicle-model-results" aria-live="polite"></div>
+    </div>
+
     <div class="car-grid">
 
         <!-- BMW -->

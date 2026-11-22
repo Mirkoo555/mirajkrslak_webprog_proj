@@ -219,6 +219,69 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
     }
 
+    // ===== VEHICLE MODEL FINDER =====
+
+    document.addEventListener("submit", async function (event) {
+        if (event.target.id !== "vehicle-search-form") {
+            return;
+        }
+
+        event.preventDefault();
+
+        const input = document.getElementById("vehicle-make-input");
+        const results = document.getElementById("vehicle-model-results");
+        const button = document.getElementById("vehicle-search-button");
+        const make = input.value.trim();
+
+        if (!make) {
+            return;
+        }
+
+        results.textContent = "Loading vehicle models...";
+        button.disabled = true;
+
+        try {
+            const response = await fetch(
+                "http://localhost:8000/api/vehicle-models?make=" +
+                encodeURIComponent(make)
+            );
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || "Could not load vehicle models.");
+            }
+
+            results.replaceChildren();
+
+            const heading = document.createElement("h4");
+            heading.textContent = `${result.make} — ${result.count} models`;
+            results.appendChild(heading);
+
+            if (result.data.length === 0) {
+                results.append("No models were found for this make.");
+                return;
+            }
+
+            const list = document.createElement("ul");
+
+            result.data.forEach(function (vehicle) {
+                const item = document.createElement("li");
+                item.textContent = vehicle.Model_Name;
+                list.appendChild(item);
+            });
+
+            results.appendChild(list);
+
+        } catch (error) {
+            console.error("Vehicle Model Finder:", error);
+            results.textContent =
+                "Vehicle service is temporarily unavailable. You can still browse the listed cars.";
+        } finally {
+            button.disabled = false;
+        }
+    });
+
     // ===== HANDLE NAVIGATION CLICKS =====
 
     document.addEventListener("click", function (event) {
