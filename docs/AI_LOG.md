@@ -173,3 +173,99 @@ AI suggestions were reviewed during implementation and adjusted when necessary.
 The developer checked the PHP files, database connection, and CRUD test results to verify that the implementation worked as expected.
 
 
+
+⸻
+
+Milestone 3: Business Logic, REST API and External API Integration
+
+1. AI Tools Used
+
+* ChatGPT: Used for assistance with PHP service classes, FlightPHP controllers and routes, REST API implementation, OpenAPI documentation, external API integration, and frontend functionality.
+
+2. Main Tasks
+
+AI assistance was used during the implementation of the business logic and presentation layers.
+
+The main tasks included:
+
+* Creating service classes for Users, Cars, Brands, Favorites, Events, and Reviews.
+* Implementing input validation and business rules in the service layer.
+* Implementing CRUD REST API endpoints using FlightPHP.
+* Creating controllers for all six database entities.
+* Returning JSON responses with appropriate HTTP status codes.
+* Creating OpenAPI 3.0 documentation and a Swagger UI page.
+* Integrating the NHTSA vPIC API to retrieve vehicle models by make.
+* Implementing the Vehicle Model Finder feature in the frontend.
+* Handling external API timeouts, errors, and logging.
+
+3. Issues Identified and Corrected
+
+During implementation, PHP errors, API responses, validation results, and frontend behavior were checked. Some implementation details required adjustments before the expected functionality worked correctly.
+
+Case 1: Service Layer Validation
+
+What was wrong:
+
+The application needed validation rules to prevent invalid data from being passed to the DAO layer.
+
+How the problem was addressed:
+
+Validation was implemented in the service classes for all six entities. The rules cover required fields, valid email addresses, password length, positive IDs, vehicle year and price, event dates, and review ratings. Duplicate favorites are also checked.
+
+Verification:
+
+Service tests were created for all six entities to check CRUD operations and validation behavior.
+
+Case 2: REST API Responses and Error Handling
+
+What was wrong:
+
+The API needed consistent responses for successful requests, invalid input, missing records, and unexpected errors.
+
+How the problem was addressed:
+
+FlightPHP controllers were implemented for all six entities. The controllers return JSON responses and use appropriate HTTP status codes, including 200, 201, 400, 404, and 500. User responses were also adjusted to avoid exposing stored passwords.
+
+Verification:
+
+CRUD endpoints were tested using HTTP requests. Successful operations and expected error responses were checked.
+
+Case 3: External Vehicle API Integration
+
+What was wrong:
+
+The frontend needed a way to retrieve vehicle models from an external data source instead of relying only on static vehicle information.
+
+How the problem was addressed:
+
+The NHTSA vPIC API was integrated through a PHP service using cURL. A Vehicle Model Finder interface was added to the Cars page, allowing users to search for models by vehicle make.
+
+Timeout handling, connection error handling, HTTP status checks, and error logging were implemented.
+
+Verification:
+
+The BMW search was tested and returned 265 models. A request without a make parameter returned HTTP 400. The frontend was also manually checked in the browser.
+
+4. Documentation and Testing
+
+OpenAPI 3.0 documentation was added in docs/openapi.yaml, covering the application endpoints and the external vehicle lookup endpoint.
+
+A Swagger UI page was added in docs/api-docs.html.
+
+PHP syntax checks were performed on the controllers, services, and service test files. JavaScript syntax was also checked.
+
+CRUD operations were tested for all six entities. External API responses and frontend functionality were checked separately.
+
+5. Developer Review
+
+AI suggestions and generated code were reviewed during implementation.
+
+The developer ran PHP syntax checks, service tests, HTTP requests, and browser tests to verify the implementation.
+
+When issues were identified, the implementation was adjusted and tested again.
+
+6. Limitations
+
+The external vehicle lookup depends on the availability of the NHTSA vPIC API and an active internet connection.
+
+The application includes the business logic and REST API implementation, while authentication and role-based authorization are planned for a later milestone.
