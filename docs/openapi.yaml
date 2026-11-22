@@ -1,0 +1,556 @@
+openapi: 3.0.3
+info:
+  title: CarHub API
+  description: REST API documentation for the CarHub application.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000/api
+    description: Local development server
+
+tags:
+  - name: Cars
+  - name: Users
+  - name: Brands
+  - name: Favorites
+  - name: Events
+  - name: Reviews
+  - name: Vehicle Lookup
+
+paths:
+  /health:
+    get:
+      summary: Check API status
+      responses:
+        '200':
+          description: API is running.
+
+  /vehicle-models:
+    get:
+      tags: [Vehicle Lookup]
+      summary: Get vehicle models by manufacturer
+      description: Retrieves available vehicle models from the external NHTSA vPIC API. The application remains usable if the external service is unavailable.
+      parameters:
+        - name: make
+          in: query
+          required: true
+          description: Vehicle manufacturer name, for example BMW, Audi, or Toyota.
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        '200':
+          description: Vehicle models retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  make:
+                    type: string
+                    example: BMW
+                  count:
+                    type: integer
+                    example: 265
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Make_ID:
+                          type: integer
+                        Make_Name:
+                          type: string
+                        Model_ID:
+                          type: integer
+                        Model_Name:
+                          type: string
+        '400':
+          description: Missing or invalid vehicle manufacturer.
+        '503':
+          description: External vehicle information service is unavailable.
+        '500':
+          description: Internal server error.
+
+  /cars:
+    get:
+      tags: [Cars]
+      summary: Get all cars
+      responses:
+        '200':
+          description: List of cars.
+    post:
+      tags: [Cars]
+      summary: Create a car
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarInput'
+      responses:
+        '201':
+          description: Car created.
+        '400':
+          description: Invalid input.
+        '500':
+          description: Internal server error.
+
+  /cars/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Cars]
+      summary: Get a car by ID
+      responses:
+        '200':
+          description: Car found.
+        '404':
+          description: Car not found.
+    put:
+      tags: [Cars]
+      summary: Update a car
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarInput'
+      responses:
+        '200':
+          description: Car updated.
+        '400':
+          description: Invalid input.
+        '404':
+          description: Car not found.
+    delete:
+      tags: [Cars]
+      summary: Delete a car
+      responses:
+        '200':
+          description: Car deleted.
+        '404':
+          description: Car not found.
+
+  /users:
+    get:
+      tags: [Users]
+      summary: Get all users
+      responses:
+        '200':
+          description: List of users. Passwords are not exposed.
+    post:
+      tags: [Users]
+      summary: Create a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInput'
+      responses:
+        '201':
+          description: User created.
+        '400':
+          description: Invalid input.
+        '500':
+          description: Internal server error.
+
+  /users/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Users]
+      summary: Get a user by ID
+      responses:
+        '200':
+          description: User found.
+        '404':
+          description: User not found.
+    put:
+      tags: [Users]
+      summary: Update a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: User updated.
+        '400':
+          description: Invalid input.
+        '404':
+          description: User not found.
+    delete:
+      tags: [Users]
+      summary: Delete a user
+      responses:
+        '200':
+          description: User deleted.
+        '404':
+          description: User not found.
+
+  /brands:
+    get:
+      tags: [Brands]
+      summary: Get all brands
+      responses:
+        '200':
+          description: List of brands.
+    post:
+      tags: [Brands]
+      summary: Create a brand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BrandInput'
+      responses:
+        '201':
+          description: Brand created.
+        '400':
+          description: Invalid input.
+
+  /brands/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Brands]
+      summary: Get a brand by ID
+      responses:
+        '200':
+          description: Brand found.
+        '404':
+          description: Brand not found.
+    put:
+      tags: [Brands]
+      summary: Update a brand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BrandInput'
+      responses:
+        '200':
+          description: Brand updated.
+        '400':
+          description: Invalid input.
+        '404':
+          description: Brand not found.
+    delete:
+      tags: [Brands]
+      summary: Delete a brand
+      responses:
+        '200':
+          description: Brand deleted.
+        '404':
+          description: Brand not found.
+
+  /favorites:
+    get:
+      tags: [Favorites]
+      summary: Get all favorites
+      responses:
+        '200':
+          description: List of favorites.
+    post:
+      tags: [Favorites]
+      summary: Create a favorite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FavoriteInput'
+      responses:
+        '201':
+          description: Favorite created.
+        '400':
+          description: Invalid input or duplicate favorite.
+
+  /favorites/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Favorites]
+      summary: Get a favorite by ID
+      responses:
+        '200':
+          description: Favorite found.
+        '404':
+          description: Favorite not found.
+    put:
+      tags: [Favorites]
+      summary: Update a favorite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FavoriteInput'
+      responses:
+        '200':
+          description: Favorite updated.
+        '400':
+          description: Invalid input or duplicate favorite.
+        '404':
+          description: Favorite not found.
+    delete:
+      tags: [Favorites]
+      summary: Delete a favorite
+      responses:
+        '200':
+          description: Favorite deleted.
+        '404':
+          description: Favorite not found.
+
+  /events:
+    get:
+      tags: [Events]
+      summary: Get all events
+      responses:
+        '200':
+          description: List of events.
+    post:
+      tags: [Events]
+      summary: Create an event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventInput'
+      responses:
+        '201':
+          description: Event created.
+        '400':
+          description: Invalid input.
+
+  /events/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Events]
+      summary: Get an event by ID
+      responses:
+        '200':
+          description: Event found.
+        '404':
+          description: Event not found.
+    put:
+      tags: [Events]
+      summary: Update an event
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventInput'
+      responses:
+        '200':
+          description: Event updated.
+        '400':
+          description: Invalid input.
+        '404':
+          description: Event not found.
+    delete:
+      tags: [Events]
+      summary: Delete an event
+      responses:
+        '200':
+          description: Event deleted.
+        '404':
+          description: Event not found.
+
+  /reviews:
+    get:
+      tags: [Reviews]
+      summary: Get all reviews
+      responses:
+        '200':
+          description: List of reviews.
+    post:
+      tags: [Reviews]
+      summary: Create a review
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewInput'
+      responses:
+        '201':
+          description: Review created.
+        '400':
+          description: Invalid input.
+
+  /reviews/{id}:
+    parameters:
+      - $ref: '#/components/parameters/id'
+    get:
+      tags: [Reviews]
+      summary: Get a review by ID
+      responses:
+        '200':
+          description: Review found.
+        '404':
+          description: Review not found.
+    put:
+      tags: [Reviews]
+      summary: Update a review
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewInput'
+      responses:
+        '200':
+          description: Review updated.
+        '400':
+          description: Invalid input.
+        '404':
+          description: Review not found.
+    delete:
+      tags: [Reviews]
+      summary: Delete a review
+      responses:
+        '200':
+          description: Review deleted.
+        '404':
+          description: Review not found.
+
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      description: Resource ID
+      schema:
+        type: integer
+        minimum: 1
+
+  schemas:
+    CarInput:
+      type: object
+      required: [user_id, brand_id, model, year, price]
+      properties:
+        user_id:
+          type: integer
+          minimum: 1
+        brand_id:
+          type: integer
+          minimum: 1
+        model:
+          type: string
+        year:
+          type: integer
+          minimum: 1886
+          maximum: 2027
+        price:
+          type: number
+          exclusiveMinimum: 0
+        fuel_type:
+          type: string
+        transmission:
+          type: string
+        description:
+          type: string
+
+    UserInput:
+      type: object
+      required: [full_name, email, password]
+      properties:
+        full_name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 6
+          writeOnly: true
+        role:
+          type: string
+          enum: [user, admin]
+
+    UserUpdate:
+      type: object
+      properties:
+        full_name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 6
+          writeOnly: true
+        role:
+          type: string
+          enum: [user, admin]
+
+    BrandInput:
+      type: object
+      required: [brand_name]
+      properties:
+        brand_name:
+          type: string
+        country:
+          type: string
+        logo_url:
+          type: string
+          format: uri
+
+    FavoriteInput:
+      type: object
+      required: [user_id, car_id]
+      properties:
+        user_id:
+          type: integer
+          minimum: 1
+        car_id:
+          type: integer
+          minimum: 1
+
+    EventInput:
+      type: object
+      required: [user_id, title, location, event_date]
+      properties:
+        user_id:
+          type: integer
+          minimum: 1
+        title:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        event_date:
+          type: string
+          format: date-time
+
+    ReviewInput:
+      type: object
+      required: [user_id, car_id, rating]
+      properties:
+        user_id:
+          type: integer
+          minimum: 1
+        car_id:
+          type: integer
+          minimum: 1
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        comment:
+          type: string

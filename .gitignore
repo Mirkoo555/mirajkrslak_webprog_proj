@@ -33,3 +33,7 @@ Thumbs.db
 dist/
 build/
 backend/config/config.php
+
+# Composer local executable files
+composer.phar
+composer-setup.php
